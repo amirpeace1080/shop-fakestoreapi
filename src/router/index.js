@@ -2,6 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
+import ProductView from '../views/ProductView.vue'
+import ProductItem from '../components/product/ProductItem.vue'
+import CartView from '../views/CartView.vue'
 import Login from '../views/Login.vue'
 
 import store from '../store'
@@ -23,6 +26,29 @@ const routes = [
     component: AboutView,
     meta: {
       requiresAuth: true,
+    },
+  },
+  {
+    path: '/products',
+    name: 'products',
+    component: ProductView,
+    meta: {
+      requiresAuth: false,
+    },
+    children:[
+      {
+        path: ':id',
+        name: 'product.id',
+        component: ProductItem,
+      }
+    ],
+  },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: CartView,
+    meta: {
+      requiresAuth: false,
     },
   },
   {

@@ -1,116 +1,105 @@
 <template>
-  <div class="navbar">
-    <header role="banner">
-      <nav class="navbar">
-        <div class="container">
-          <a href="#" class="sitename">
-              <router-link to="/" exact>Site Name</router-link>
-          </a>
-          <ul class="nav">
-            <li><a href="#">
-                <router-link to="/about">About</router-link>    
-            </a></li>
-            <li><a class="logout" @click="logout">Logout</a></li>
-            <!-- <li><a href="#">Item 5</a></li> -->
-          </ul>
+  <div class="navbar-main">
+    <!-- size lg -->
+    <v-app-bar
+      v-if="$vuetify.breakpoint.lgOnly"
+      src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
+      color="deep-purple"
+      dark
+      fixed
+    >
+      <v-toolbar-title>Toolbar Mobile Menu</v-toolbar-title>
+      <v-toolbar-items>
+        <v-btn text to="/about">
+          <span class="mr-2">About</span>
+        </v-btn>
+        <v-btn text to="/products">
+          <span class="mr-2">Products</span>
+        </v-btn>
+        <v-btn text @click="logout">
+          <v-icon class="mr-4">mdi-exit-to-app</v-icon>
+        </v-btn>
+      </v-toolbar-items>
+      <v-spacer></v-spacer>
+
+      <v-toolbar-items>
+        <router-link to="/cart">
+          <v-btn text>
+            <v-icon class="mr-2">mdi-cart</v-icon>
+            <span>{{ this.$store.state.cart.length }}</span>
+          </v-btn>
+        </router-link>
+      </v-toolbar-items>
+    </v-app-bar>
+
+    <!-- size mobile -->
+    <v-app-bar
+      v-if="$vuetify.breakpoint.xsOnly"
+      color="deep-purple"
+      dark
+      fixed
+      src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
+    >
+      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+      <v-spacer></v-spacer>
+      <router-link to="/cart">
+        <v-btn text>
+          <v-icon class="mr-2">mdi-cart</v-icon>
+          <span>{{ this.$store.state.cart.length }}</span>
+        </v-btn>
+      </router-link>
+    </v-app-bar>
+
+    <v-navigation-drawer v-model="drawer" absolute temporary>
+      <v-toolbar-title>Toolbar Mobile Menu</v-toolbar-title>
+      <v-list nav dense>
+        <v-list-item-group
+          v-model="group"
+          active-class="deep-purple--text text--accent-4"
+        >
+          <v-list-item>
+            <v-list-item-title>
+              <router-link to="/about">About</router-link>
+            </v-list-item-title>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-title>
+              <router-link to="/products">Products</router-link>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+
+      <template v-slot:append>
+        <div class="pa-2">
+          <v-btn block @click="logout"> Logout </v-btn>
         </div>
-        <!-- /.container -->
-      </nav>
-      <!-- /.navbar -->
-    </header>
+      </template>
+    </v-navigation-drawer>
   </div>
 </template>
 
 <script>
 export default {
-    methods: {
-        logout(){
-            this.$store.dispatch("logout")
-            .then(()=>{
-                this.$router.push('/login')
-            })
-        }
+  data() {
+    return {
+      drawer: false,
+      group: null,
+    };
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/login");
+      });
     },
+  },
 };
 </script>
 
 <style scoped>
-.logout{
-    cursor: pointer;
-}
-.navbar {
-  box-sizing: border-box;
-}
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-/* Clearfixes */
-.container:before,
-.container:after,
-.navbar:before,
-.navbar:after {
-  content: " ";
-  display: table;
-  clear: both;
-}
-.clearfix:after,
-.navbar:after {
-  clear: both;
-}
-/* Layout */
-.container {
-  padding: 0 20px;
-}
-@media only screen and (min-width: 768px) {
-  .container {
-    max-width: 768px;
-    padding: 0;
-    margin: 0 auto;
-  }
-}
-/* ********************
-	Navbar
-*********************** */
-.navbar {
-  background-color: #303030;
-  font-size: 12px;
-  font-weight: bold;
-}
-.sitename {
-  float: left;
-  font-size: 16px;
-  line-height: 60px;
-  font-weight: normal;
-  padding-right: 30px;
-  text-decoration: none;
-  color: #ccc;
-}
-.sitename:hover,
-.sitename:focus {
-  color: #fff;
-}
-.navbar .nav {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-.navbar li a {
-  display: inline-block;
-  float: left;
-  line-height: 60px;
-  padding: 0 30px;
-  color: #ccc;
-  text-transform: uppercase;
-  text-decoration: none;
-}
-.navbar li a:hover,
-.navbar li a:focus {
-  color: white;
-  background-color: red;
-}
-.router-link-active{
-  background-color: green;
+.navbar-main {
+  margin-bottom: 50px;
 }
 </style>

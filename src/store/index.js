@@ -10,6 +10,7 @@ const mainurl = "https://fakestoreapi.com";
 export default new Vuex.Store({
   state: {
     token: localStorage.getItem("token") || "",
+    cart: [],
   },
   getters: {
     isLoggedIn: (state) => !!state.token,
@@ -45,7 +46,6 @@ export default new Vuex.Store({
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
             commit('auth_success', token)
             resolve(resp)
-            console.log('auth-success', resp);
           })
           .catch(err => {
             commit('auth_error')
@@ -63,7 +63,44 @@ export default new Vuex.Store({
         resolve()
       })
     },
-
+    products({ commit }) {
+      return new Promise((resolve, reject) => {
+        axios({
+          url: `${mainurl}/products`,
+          method: "GET",
+        })
+          .then((resp) => {
+            commit("auth_success", resp.data.data);
+            resolve(resp);
+          })
+          .catch((err) => {
+            if (err.response.status == 401) {
+              localStorage.removeItem("token");
+              delete axios.defaults.headers.common["Authorization"];
+            }
+            reject(err);
+          });
+      });
+    },
+    productItem({ commit }, {id}) {
+      return new Promise((resolve, reject) => {
+        axios({
+          url: `${mainurl}/products/${id}`,
+          method: "GET",
+        })
+          .then((resp) => {
+            commit("auth_success", resp.data.data);
+            resolve(resp);
+          })
+          .catch((err) => {
+            if (err.response.status == 401) {
+              localStorage.removeItem("token");
+              delete axios.defaults.headers.common["Authorization"];
+            }
+            reject(err);
+          });
+      });
+    },
   },
   modules: {
   }

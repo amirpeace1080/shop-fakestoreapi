@@ -32,12 +32,7 @@
                 <v-spacer></v-spacer>
                 <!-- <v-btn color="#321fdb" text @click="forgotpassword">فراموشی رمز عبور</v-btn> -->
                 <!-- <v-btn color="#321fdb" text @click="register">ثبت نام</v-btn> -->
-                <v-btn
-                  color="#321fdb"
-                  class="vbtn"
-                  @click="login"
-                  >ورود</v-btn
-                >
+                <v-btn color="#321fdb" class="vbtn" @click="login">ورود</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -49,34 +44,36 @@
 
 <script>
 export default {
-    data() {
-        return{
-            username: 'mor_2314',
-            password: '83r5^_',
-        }
+  data() {
+    return {
+      username: "mor_2314",
+      password: "83r5^_",
+    };
+  },
+  methods: {
+    login() {
+      let username = this.username;
+      let password = this.password;
+      this.$store
+        .dispatch("login", { username, password })
+        .then(() => {
+          // window.location('/')
+          this.$router.push("/");
+        })
+        .catch(() => {
+          this.$fire({
+            title: "خطا !",
+            text: "نام کاربری و رمز عبور وارد شده صحیح نمی باشد",
+            type: "error",
+            confirmButtonText: "دوباره تلاش می‌کنم",
+            timer: 3000,
+          }).then((r) => {
+            console.log(r.value);
+          });
+        });
     },
-    methods: {
-        login() {
-            let username = this.username
-            let password = this.password
-            this.$store.dispatch('login', {username, password})
-            .then(() => {
-                // window.location('/')
-                this.$router.push("/")
-            }).catch(() =>{
-                this.$fire({
-                    title: 'خطا !',
-                    text: 'نام کاربری و رمز عبور وارد شده صحیح نمی باشد',
-                    type: 'error',
-                    confirmButtonText: "دوباره تلاش می‌کنم",
-                    timer: 3000,
-                }).then((r)=>{
-                    console.log(r.value);
-                })
-            });
-        }
-    },
-}
+  },
+};
 </script>
 
 <style>

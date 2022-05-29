@@ -1,4 +1,6 @@
 <template>
+  <div>
+    <Navbar />
   <div class="section-fluid-main">
     <div class="section">
       <div class="info-wrap mob-margin">
@@ -38,7 +40,7 @@
       <input class="color-btn for-color-1" type="radio" checked />
       <div class="clearfix"></div>
       <div class="info-wrap">
-        <a href="#" class="btn"
+        <a href="#" class="btn" @click="addCart(showProduct)"
           ><i class="uil uil-shopping-cart icon"></i> Add To Cart</a
         >
       </div>
@@ -52,20 +54,28 @@
         />
       </div>
       <div class="back-color"></div>
-
-      <a href="https://front.codes/" class="logo" target="_blank">
-        <img src="https://assets.codepen.io/1462889/fcy.png" alt="" />
-      </a>
     </div>
+  </div>
+
   </div>
 </template>
 
 <script>
+import Navbar from "../Navbar.vue"
+
 export default {
+  components: {
+    Navbar
+  },
   data() {
     return {
       showProduct: [],
     };
+  },
+  methods: {
+    addCart(product){
+      this.$store.state.cart.push(product)
+    }
   },
   created() {
     this.$store

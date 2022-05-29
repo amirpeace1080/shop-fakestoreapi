@@ -1,6 +1,9 @@
 <template>
   <div>
     <Navbar />
+    <v-overlay v-if="loading">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
     <router-view />
     <div>
       <div>
@@ -73,21 +76,25 @@
         ></v-pagination>
       </div>
     </div>
+    <Footer />
   </div>
 </template>
 
 <script>
 import Navbar from '../components/Navbar.vue'
+import Footer from '../components/Footer.vue'
 
 export default {
   components: {
-    Navbar
+    Navbar,
+    Footer
   },
   data() {
     return {
       page: 1,
       perPage: 12,
       pages: [],
+      loading: false,
     };
   },
   computed: {
@@ -104,7 +111,9 @@ export default {
     },
   },
   created() {
+    this.loading = true
     this.$store.dispatch("products").then((res) => {
+      this.loading = false
       this.pages = res.data;
     });
   },

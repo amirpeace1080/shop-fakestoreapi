@@ -2,7 +2,7 @@
   <div class="navbar-main">
     <!-- size lg -->
     <v-app-bar
-      v-if="$vuetify.breakpoint.lgOnly"
+      class="hidden-sm-and-down"
       src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
       color="deep-purple"
       dark
@@ -40,7 +40,7 @@
 
     <!-- size mobile -->
     <v-app-bar
-      v-if="$vuetify.breakpoint.xsOnly"
+       class="hidden-sm-and-up"
       color="deep-purple"
       dark
       fixed

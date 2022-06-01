@@ -8,7 +8,6 @@
       dark
       fixed
     >
-      <!-- <v-toolbar-title>Toolbar Mobile Menu</v-toolbar-title> -->
       <v-toolbar-items>
         <v-btn text to="/">
           <span class="mr-2">Home</span>
